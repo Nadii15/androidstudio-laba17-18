@@ -97,9 +97,9 @@ fun WeatherDashboardScreen(
         if (weatherState.error != null) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = weatherState.error!!,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyMedium
+                text = weatherState.loadingProgress,
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.bodySmall
             )
         }
     }
