@@ -1,5 +1,6 @@
 package com.ryckluk.androidstudio_laba17_18.ui.theme.viewmodel
 
+import android.R.attr.delay
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.util.copy
@@ -11,6 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 
 class WeatherViewModel : ViewModel() {
 
@@ -21,6 +24,20 @@ class WeatherViewModel : ViewModel() {
 
     init {
         loadWeatherData()
+        startAutoRefresh()
+        // viewModelScope автоматически отменит корутину при onCleared()
+    }
+    private fun startAutoRefresh() {
+        viewModelScope.launch {
+            flow {
+                while (true) {
+                    delay(10000)
+                    emit(Unit)
+                }
+            }.collect {
+                loadWeatherData()
+            }
+        }
     }
 
     fun toggleErrorSimulation(){
